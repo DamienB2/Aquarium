@@ -1,5 +1,6 @@
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Fish { 
@@ -10,11 +11,12 @@ public class Fish {
     private int fish_y;
     private String direction;
     private String[] way = {"N", "NE", "E", "SE", "S", "SO", "O", "NO"};
-
+    private boolean was_eaten;
     public Fish(int AQUARIUM_HEIGHT, int AQUARIUM_WIDTH) {
     	
     	this.FISH_SPEED = 2;												//The number of pixels the fish makes at each action performed
     	this.FISH_SIZE = 50;												//Size of the fish in pixels
+    	this.was_eaten = false;												//Tell if the fish was eaten
     	// Parfois mon poissons appairait en dehors de la zone de jeu et reviens. Pourquoi ???
     	this.setFish_x((int) (Math.random()*AQUARIUM_WIDTH-FISH_SIZE));		//Place the fish in a random X position - FISH_SIZE so the fish don't appear outside the aquarium
     	this.setFish_y((int) (Math.random()*AQUARIUM_HEIGHT-FISH_SIZE));	//Place the fish in a random Y position - FISH_SIZE so the fish don't appear outside the aquarium
@@ -53,22 +55,40 @@ public class Fish {
 		this.direction = direction;
 	}
 	
-	public Image getFishType() {
+	public Image getFishImage() {
 		return null ;
 	}
+	
+	public void setWas_eaten(boolean was_eaten) {
+		this.was_eaten = was_eaten;
+	}
+	
+	public boolean getWas_eaten() {
+		return was_eaten;
+	}
+	
+	
+	public void checkEaten(List<Fish> Fishes) {
+		if(this.getWas_eaten() == true) {
+			System.out.println("pasteque");
+			Fishes.remove(this);
 
+		}
+	}
+	
     
-    public void checkFish(int AQUARIUM_WIDTH, int AQUARIUM_HEIGHT) {
-    	if(		(this.getFish_x() >= 0) 
+    public void checkFish(int AQUARIUM_WIDTH, int AQUARIUM_HEIGHT, List<Fish> Fishes) {
+    	if(		(this.getFish_x() >= 0) 										//Check if fish is in the aquarium border
             && 	(this.getFish_x() < AQUARIUM_WIDTH - this.getFISH_SIZE()) 
             && 	(this.getFish_y() >= 0)
             &&	(this.getFish_y() < AQUARIUM_HEIGHT - this.getFISH_SIZE()))
             {
+    
             	moveFish(this.getDirection());
             	
             }
             //sinon ici
-            else 
+            else 																//Else change his direction
             {
             	changeDirection(AQUARIUM_WIDTH, AQUARIUM_HEIGHT);
             } 
@@ -76,32 +96,32 @@ public class Fish {
     
     
     public void moveFish(String direction) {
-    	
-    	if(direction == "N") {
+    	direction = direction.trim();
+    	if(direction.equals("N")) {
         	this.setFish_y(this.getFish_y() - this.getFISH_SPEED());
         }
-        else if(direction == "NE"){
+        else if(direction.equals("NE")){
         	this.setFish_y(this.getFish_y() - this.getFISH_SPEED());
         	this.setFish_x(this.getFish_x() + this.getFISH_SPEED());
         }
-        else if(direction == "E"){
+        else if(direction.equals("E")){
         	this.setFish_x(this.getFish_x() + this.getFISH_SPEED());
         }
-        else if(direction == "SE"){
+        else if(direction.equals("SE")){
         	this.setFish_y(this.getFish_y() + this.getFISH_SPEED());
         	this.setFish_x(this.getFish_x() + this.getFISH_SPEED());
         }
-        else if(direction == "S"){
+        else if(direction.equals("S")){
         	this.setFish_y(this.getFish_y() + this.getFISH_SPEED());
         }
-        else if(direction == "SO"){
+        else if(direction.equals("SO")){
         	this.setFish_y(this.getFish_y() + this.getFISH_SPEED());
         	this.setFish_x(this.getFish_x() - this.getFISH_SPEED());
         }
-        else if(direction == "O"){
+        else if(direction.equals("O")){
         	this.setFish_x(this.getFish_x() - this.getFISH_SPEED());
         }
-        else if(direction == "NO"){
+        else if(direction.equals("NO")){
         	this.setFish_y(this.getFish_y() - this.getFISH_SPEED());
         	this.setFish_x(this.getFish_x() - this.getFISH_SPEED());
         }
@@ -115,13 +135,13 @@ public class Fish {
     	
     	List<String> directions = new ArrayList<String>();
     	directions.add("N");
-    	directions.add("NE");
-    	directions.add("E");
-    	directions.add("SE");
-    	directions.add("S");
-    	directions.add("SO");
-    	directions.add("O");
     	directions.add("NO");
+    	directions.add("O");
+    	directions.add("SO");
+    	directions.add("S");
+    	directions.add("SE");
+    	directions.add("E");
+    	directions.add("NE");
     	
     	
     	//regarde ou se trouve le poisson et change la direction en fonction de ça
@@ -153,8 +173,6 @@ public class Fish {
     	finalDirection = directions.get((int) (Math.random()*directions.size()));
     	
     	this.setDirection(finalDirection);
-    	System.out.println(directions);
-    	System.out.println(this.getDirection());
     	moveFish(this.getDirection());
     }
 

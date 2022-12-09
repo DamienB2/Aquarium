@@ -58,7 +58,7 @@ import javax.swing.Timer;
    
     private void initGame(){
           
-        timer = new Timer(DELAY, this);
+    	timer = new Timer(DELAY, this);
         timer.start();
     }
 
@@ -73,7 +73,7 @@ import javax.swing.Timer;
     
     private void doDrawing(Graphics g) {
     	for(Fish fish: Fishes) {															//Look for all fish in the list fishes
-    		g.drawImage(fish.getFishType(), fish.getFish_x(), fish.getFish_y(), this);		//Each fish is redraw one by one 
+    		g.drawImage(fish.getFishImage(), fish.getFish_x(), fish.getFish_y(), this);		//Each fish is redraw one by one 
     		
     	}
               
@@ -84,9 +84,10 @@ import javax.swing.Timer;
     @Override
     public void actionPerformed(ActionEvent e) {
     	
-    	for(Fish fish: Fishes) {								//Look for all fish in the fishes list
-    		fish.checkFish(AQUARIUM_WIDTH, AQUARIUM_HEIGHT);	//Check the position of a specific fish in the list and do all the direction job
-    		
+    	System.out.println(Fishes);
+    	for(Fish fish: Fishes) {										//Look for all fish in the fishes list
+    		fish.checkFish(AQUARIUM_WIDTH, AQUARIUM_HEIGHT, Fishes);	//Check the position of a specific fish in the list and do all the direction
+    		fish.checkEaten(Fishes);									//Check if the var was_eaten is on false, if true -> remove the fish from the list
     	}
     	
     	repaint();
@@ -98,7 +99,7 @@ import javax.swing.Timer;
 
         @Override
         public void keyPressed(KeyEvent e) {
-        	//GARDER UN TIMER POUR TOUT LES POISSONS OU METTRE UN TIMER PAR POISSON
+        	//GARDER UN TIMER POUR TOUT LES POISSONS OU METTRE UN TIMER PAR POISSON??????
             int key = e.getKeyCode();
             
             if(Fishes.size() <= ALL_FISH) {

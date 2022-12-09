@@ -10,7 +10,7 @@ public class OrangeFish extends Fish{
 	
 	
 	
-	public Image getFishType() {
+	public Image getFishImage() {
 		
 		 ImageIcon orfi = new ImageIcon("src\\orange_fish.PNG");
 	     Image orange_fish = orfi.getImage();
