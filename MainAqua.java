@@ -11,7 +11,7 @@ public class MainAqua extends JFrame {
     private void initUI() {
         
         add(new Aquarium());
-               
+            
         setResizable(false);
         pack();
         
